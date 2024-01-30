@@ -79,5 +79,14 @@ module.exports = {
         node: true,
       },
     },
+
+    //Shadcn
+    {
+      files: ["**/components/ui/*.tsx"],
+      rules: {
+        "react/prop-types": [2, { ignore: ["className"] }],
+        "jsx-a11y/heading-has-content": "off",
+      },
+    },
   ],
 };
