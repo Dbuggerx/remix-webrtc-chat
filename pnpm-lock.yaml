@@ -18,7 +18,7 @@ dependencies:
     specifier: ^2.5.1
     version: 2.5.1(typescript@5.3.3)
   isbot:
-    specifier: ^4.1.0
+    specifier: ^4.4.0
     version: 4.4.0
   react:
     specifier: ^18.2.0
@@ -32,28 +32,28 @@ devDependencies:
     specifier: ^2.5.1
     version: 2.5.1(@remix-run/serve@2.5.1)(typescript@5.3.3)
   '@types/react':
-    specifier: ^18.2.20
+    specifier: ^18.2.48
     version: 18.2.48
   '@types/react-dom':
-    specifier: ^18.2.7
+    specifier: ^18.2.18
     version: 18.2.18
   '@typescript-eslint/eslint-plugin':
-    specifier: ^6.7.4
+    specifier: ^6.20.0
     version: 6.20.0(@typescript-eslint/parser@6.20.0)(eslint@8.56.0)(typescript@5.3.3)
   eslint:
-    specifier: ^8.38.0
+    specifier: ^8.56.0
     version: 8.56.0
   eslint-config-prettier:
-    specifier: ^9.0.0
+    specifier: ^9.1.0
     version: 9.1.0(eslint@8.56.0)
   eslint-import-resolver-typescript:
     specifier: ^3.6.1
     version: 3.6.1(@typescript-eslint/parser@6.20.0)(eslint-plugin-import@2.29.1)(eslint@8.56.0)
   eslint-plugin-import:
-    specifier: ^2.28.1
+    specifier: ^2.29.1
     version: 2.29.1(@typescript-eslint/parser@6.20.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.56.0)
   eslint-plugin-jsx-a11y:
-    specifier: ^6.7.1
+    specifier: ^6.8.0
     version: 6.8.0(eslint@8.56.0)
   eslint-plugin-react:
     specifier: ^7.33.2
@@ -62,7 +62,7 @@ devDependencies:
     specifier: ^4.6.0
     version: 4.6.0(eslint@8.56.0)
   typescript:
-    specifier: ^5.1.6
+    specifier: ^5.3.3
     version: 5.3.3
 
 packages:
