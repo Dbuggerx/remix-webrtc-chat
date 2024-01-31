@@ -39,7 +39,7 @@ export default function Index() {
               <TableHead className="w-32 text-center"></TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="bg-slate-50">
+          <TableBody className="bg-slate-50 dark:bg-gray-700">
             {data.rooms.map((room) => (
               <TableRow key={room.id}>
                 <TableCell className="font-medium">{room.name}</TableCell>
