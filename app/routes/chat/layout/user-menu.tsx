@@ -11,7 +11,7 @@ export default function UserMenu({ username }: { username: string }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="p-0" variant="ghost">
+        <Button className="px-2" variant="ghost">
           <User />
           {username}
           <span className="sr-only">Toggle user menu</span>

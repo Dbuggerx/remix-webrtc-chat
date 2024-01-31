@@ -75,3 +75,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+a.active {
+  @apply dark:bg-slate-700 bg-slate-200;
+}

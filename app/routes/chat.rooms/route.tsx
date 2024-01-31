@@ -10,10 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { getBreadcrumbForPath } from "~/utils/breadcrumbs";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];
 };
+
+export const handle = getBreadcrumbForPath("/chat/rooms", "Rooms");
 
 export const loader = async () => {
   return json({
@@ -28,32 +31,29 @@ export const loader = async () => {
 export default function Index() {
   const data = useLoaderData<typeof loader>();
   return (
-    <>
-      <h1 className="font-semibold text-lg md:text-2xl">Chat Rooms</h1>
-      <ScrollArea className="border shadow-sm rounded-lg max-h-fit mx-48">
-        <Table>
-          <TableHeader className="sticky top-0 bg-secondary">
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead className="w-32 text-center">Users</TableHead>
-              <TableHead className="w-32 text-center"></TableHead>
+    <ScrollArea className="border shadow-sm rounded-lg max-h-fit">
+      <Table>
+        <TableHeader className="sticky top-0 bg-secondary">
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead className="text-center w-1/6 md:w-1/4">Users</TableHead>
+            <TableHead className="w-1/6 md:w-1/4 text-center"></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="bg-slate-50 dark:bg-slate-700">
+          {data.rooms.map((room) => (
+            <TableRow key={room.id}>
+              <TableCell className="font-medium">{room.name}</TableCell>
+              <TableCell className="text-center">{room.userCount}</TableCell>
+              <TableCell className="text-center">
+                <Button size="sm" variant="outline">
+                  Join
+                </Button>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody className="bg-slate-50 dark:bg-gray-700">
-            {data.rooms.map((room) => (
-              <TableRow key={room.id}>
-                <TableCell className="font-medium">{room.name}</TableCell>
-                <TableCell className="text-center">{room.userCount}</TableCell>
-                <TableCell className="text-center">
-                  <Button size="sm" variant="outline">
-                    Join
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ScrollArea>
-    </>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollArea>
   );
 }
