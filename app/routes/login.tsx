@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat" }];
 };
 
-export default function Index() {
+export default function LoginRoute() {
   const [title, setTitle] = React.useState("Sign in to your account");
 
   return (

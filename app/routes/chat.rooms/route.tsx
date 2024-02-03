@@ -28,7 +28,7 @@ export const loader = async () => {
   });
 };
 
-export default function Index() {
+export default function ChatRoomsRoute() {
   const data = useLoaderData<typeof loader>();
   return (
     <ScrollArea className="max-h-fit rounded-lg border shadow-sm">

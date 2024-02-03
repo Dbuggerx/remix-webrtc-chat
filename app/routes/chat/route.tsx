@@ -20,7 +20,7 @@ export const loader = async () => {
   return json({ roomCount: 10, usename: "User" });
 };
 
-export default function Index() {
+export default function ChatRoute() {
   const data = useLoaderData<typeof loader>();
   const matches = useMatches();
   const currentLocation = useLocation();
