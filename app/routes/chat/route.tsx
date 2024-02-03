@@ -14,7 +14,10 @@ export const meta: MetaFunction = () => {
   return [{ title: "Chat" }];
 };
 
-export const handle = getBreadcrumbForPath("/chat", "Chat");
+export const handle = getBreadcrumbForPath({
+  label: "Chat",
+  targetPath: "/chat",
+});
 
 export const loader = async () => {
   return json({ roomCount: 10, usename: "User" });

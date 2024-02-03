@@ -12,7 +12,7 @@ export default function Breadcrumbs({ currentLocation, matches }: Props) {
       {matches.filter(hasBreadcrumbHandle).map((match, index) => (
         <span key={match.pathname}>
           {index > 0 ? <span className="mx-2">/</span> : null}
-          {match.handle.breadcrumb(currentLocation.pathname)}
+          <match.handle.Breadcrumb currentPathName={currentLocation.pathname} />
         </span>
       ))}
     </nav>

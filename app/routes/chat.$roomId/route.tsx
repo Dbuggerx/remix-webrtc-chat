@@ -4,15 +4,18 @@ import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Input } from "~/components/ui/input";
 import { SendIcon } from "lucide-react";
-import { getTitleWithBackButton } from "../chat/utils/back-handle";
 import Message from "./message";
 import { TooltipProvider } from "~/components/ui/tooltip";
+import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Remix WebRTC Chat - Rooms" }];
+  return [{ title: "Remix WebRTC Chat" }];
 };
 
-export const handle = getTitleWithBackButton("Chat Room");
+export const handle = getBreadcrumbForPath({
+  dynamicParam: "roomId",
+  targetPath: "/chat/roomId",
+});
 
 export const loader = async () => {
   return json({
@@ -43,7 +46,7 @@ export default function ChatRoomRoute() {
           ))}
         </ScrollArea>
       </TooltipProvider>
-      <div className="flex items-center gap-2 border-t p-4">
+      <div className="flex items-center gap-2 border-t p-4 pb-0">
         <Input className="flex-grow" placeholder="Type a message" />
         <Button size="icon" variant="outline">
           <SendIcon className="h-6 w-6" />
