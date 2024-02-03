@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import Header from "./layout/header";
 import SidePanel from "./layout/side-panel";
-import { getBreadcrumbForPath } from "~/utils/breadcrumbs";
+import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Chat" }];

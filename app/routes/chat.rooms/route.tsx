@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { getBreadcrumbForPath } from "~/utils/breadcrumbs";
+import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];
