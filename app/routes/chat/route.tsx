@@ -8,16 +8,15 @@ import {
 } from "@remix-run/react";
 import Header from "./layout/header";
 import SidePanel from "./layout/side-panel";
-import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Chat" }];
 };
 
-export const handle = getBreadcrumbForPath({
+export const handle = {
   label: "Chat",
   targetPath: "/chat",
-});
+};
 
 export const loader = async () => {
   return json({ roomCount: 10, usename: "User" });

@@ -10,16 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];
 };
 
-export const handle = getBreadcrumbForPath({
+export const handle = {
   label: "Rooms",
   targetPath: "/chat/rooms",
-});
+};
 
 export const loader = async () => {
   return json({

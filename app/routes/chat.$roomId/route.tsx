@@ -6,16 +6,15 @@ import { Input } from "~/components/ui/input";
 import { SendIcon } from "lucide-react";
 import Message from "./message";
 import { TooltipProvider } from "~/components/ui/tooltip";
-import { getBreadcrumbForPath } from "../chat/utils/breadcrumb-handle";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat" }];
 };
 
-export const handle = getBreadcrumbForPath({
-  dynamicParam: "roomId",
-  targetPath: "/chat/roomId",
-});
+export const handle = {
+  label: "$roomId",
+  targetPath: "/chat/$roomId",
+};
 
 export const loader = async () => {
   return json({
