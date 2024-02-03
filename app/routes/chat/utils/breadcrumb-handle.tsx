@@ -1,5 +1,5 @@
-import type { UIMatch } from "@remix-run/react";
 import { Link } from "@remix-run/react";
+import { createHandleValidator } from "~/utils/handles";
 
 export const getBreadcrumbForPath = (targetPath: string, label: string) => ({
   breadcrumb: (currentPathName: string) =>
@@ -10,12 +10,5 @@ export const getBreadcrumbForPath = (targetPath: string, label: string) => ({
     ),
 });
 
-export function hasBreadcrumbHandle(
-  match: UIMatch,
-): match is UIMatch<unknown, ReturnType<typeof getBreadcrumbForPath>> {
-  return (
-    !!match.handle &&
-    typeof match.handle === "object" &&
-    "breadcrumb" in match.handle
-  );
-}
+export const hasBreadcrumbHandle =
+  createHandleValidator<ReturnType<typeof getBreadcrumbForPath>>("breadcrumb");
