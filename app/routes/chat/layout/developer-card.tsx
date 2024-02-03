@@ -9,14 +9,14 @@ import { Button } from "~/components/ui/button";
 
 export default function DeveloperCard() {
   return (
-    <Card className="text-center @xxs:mx-6 @xxs:text-left bg-inherit @xxs:bg-card text-card-foreground rounded-lg shadow-sm @xxs:border border-0">
+    <Card className="rounded-lg border-0 bg-inherit text-center text-card-foreground shadow-sm @xxs:mx-6 @xxs:border @xxs:bg-card @xxs:text-left">
       <CardHeader className="pb-0">
         <CardDescription className="hidden flex-col space-y-1.5 @xxs:flex">
           Developed by <br />
           <strong>Danilo Cestari</strong>
         </CardDescription>
       </CardHeader>
-      <CardContent className="inline-flex flex-col gap-2 pt-0 @xxs:flex-row @xxs:p-6 p-0">
+      <CardContent className="inline-flex flex-col gap-2 p-0 pt-0 @xxs:flex-row @xxs:p-6">
         <Button
           className="ml-auto h-8 w-8"
           size="icon"

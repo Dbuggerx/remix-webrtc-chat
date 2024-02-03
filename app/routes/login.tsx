@@ -16,9 +16,9 @@ export default function Index() {
   const [title, setTitle] = React.useState("Sign in to your account");
 
   return (
-    <div className="min-h-dvh bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 dark:bg-gray-800">
+    <div className="flex min-h-dvh flex-col justify-center bg-gray-100 py-12 dark:bg-gray-800 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <p className="text-lg flex justify-center gap-3 items-center">
+        <p className="flex items-center justify-center gap-3 text-lg">
           <MessageCircleMore className="size-10 @xxs:size-6" />
           Remix WebRTC Chat
           <ThemeModeToggle />
@@ -28,7 +28,7 @@ export default function Index() {
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 dark:bg-gray-700">
+        <div className="bg-white px-4 py-8 shadow dark:bg-gray-700 sm:rounded-lg sm:px-10">
           <form className="space-y-6" method="POST">
             <RadioGroup
               defaultValue="Login"
@@ -39,7 +39,7 @@ export default function Index() {
                 setTitle(
                   value === "Login"
                     ? "Sign in to your account"
-                    : "Create an account"
+                    : "Create an account",
                 );
               }}
             >

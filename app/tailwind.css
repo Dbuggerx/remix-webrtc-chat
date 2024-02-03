@@ -77,5 +77,5 @@
 }
 
 a.active {
-  @apply dark:bg-slate-700 bg-slate-200;
+  @apply bg-slate-200 dark:bg-slate-700;
 }

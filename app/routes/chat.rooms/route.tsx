@@ -31,13 +31,13 @@ export const loader = async () => {
 export default function Index() {
   const data = useLoaderData<typeof loader>();
   return (
-    <ScrollArea className="border shadow-sm rounded-lg max-h-fit">
+    <ScrollArea className="max-h-fit rounded-lg border shadow-sm">
       <Table>
         <TableHeader className="sticky top-0 bg-secondary">
           <TableRow>
             <TableHead>Name</TableHead>
-            <TableHead className="text-center w-1/6 md:w-1/4">Users</TableHead>
-            <TableHead className="w-1/6 md:w-1/4 text-center"></TableHead>
+            <TableHead className="w-1/6 text-center md:w-1/4">Users</TableHead>
+            <TableHead className="w-1/6 text-center md:w-1/4"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="bg-slate-50 dark:bg-slate-700">

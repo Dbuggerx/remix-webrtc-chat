@@ -11,13 +11,13 @@ export default function Breadcrumbs({ currentLocation, matches }: Props) {
       {matches
         .filter(
           (match) =>
-            match.handle && (match.handle as HandleWithBreadcrumb).breadcrumb
+            match.handle && (match.handle as HandleWithBreadcrumb).breadcrumb,
         )
         .map((match, index) => (
           <span key={match.pathname}>
             {index > 0 ? <span className="mx-2">/</span> : null}
             {(match.handle as HandleWithBreadcrumb).breadcrumb(
-              currentLocation.pathname
+              currentLocation.pathname,
             )}
           </span>
         ))}

@@ -28,13 +28,13 @@ export default function Index() {
   return (
     <article className="flex h-dvh w-dvw bg-gray-100 dark:bg-gray-900">
       <SidePanel roomCount={data.roomCount} />
-      <div className="flex flex-col flex-auto">
+      <div className="flex flex-auto flex-col">
         <Header
           username={data.usename}
           currentLocation={currentLocation}
           matches={matches}
         />
-        <main className="flex flex-1 flex-col gap-4 p-4 overflow-hidden ">
+        <main className="flex flex-1 flex-col gap-4 overflow-hidden p-4 ">
           <Outlet />
         </main>
       </div>
