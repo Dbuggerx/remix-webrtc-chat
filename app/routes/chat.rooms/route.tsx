@@ -33,7 +33,7 @@ export const loader = async () => {
 export default function ChatRoomsRoute() {
   const data = useLoaderData<typeof loader>();
   return (
-    <ScrollArea className="max-h-fit rounded-lg border shadow-sm">
+    <ScrollArea className="max-h-fit rounded-lg border shadow-sm lg:mx-16">
       <Table>
         <TableHeader className="sticky top-0 bg-secondary">
           <TableRow>

@@ -31,9 +31,9 @@ export const loader = async () => {
 export default function ChatRoomRoute() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="flex h-full flex-col gap-4">
+    <div className="flex h-full flex-col gap-4 lg:mx-16">
       <TooltipProvider>
-        <ScrollArea className="flex flex-1 space-y-4 px-4 pb-4">
+        <ScrollArea className="flex flex-1 px-4">
           {data.msgs.map((m) => (
             <Message
               key={m.id}
