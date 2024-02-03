@@ -83,7 +83,7 @@ export default function Index() {
             </div>
             <Alert
               variant="destructive"
-              className="dark:bg-slate-950 dark:font-bold"
+              className="dark:border-2 dark:bg-slate-950/[0.6] dark:font-bold"
             >
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
