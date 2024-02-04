@@ -15,11 +15,6 @@ export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];
 };
 
-export const handle = {
-  label: "Rooms",
-  targetPath: "/chat/rooms",
-};
-
 export const loader = async () => {
   return json({
     rooms: Array.from({ length: 20 }, (_, i) => ({
@@ -49,7 +44,7 @@ export default function ChatRoomsRoute() {
               <TableCell className="text-center">{room.userCount}</TableCell>
               <TableCell className="text-center">
                 <Button size="sm" variant="outline" asChild>
-                  <Link to={`/chat/${room.name}`}>Join</Link>
+                  <Link to={`/chat/rooms/${room.name}`}>Join</Link>
                 </Button>
               </TableCell>
             </TableRow>

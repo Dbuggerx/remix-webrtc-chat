@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
 
 export const handle = {
   label: "$roomId",
-  targetPath: "/chat/$roomId",
+  targetPath: "/chat/rooms/$roomId",
 };
 
 export const loader = async () => {
