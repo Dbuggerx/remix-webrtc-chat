@@ -16,9 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import type { usePeerjs } from "../chat.rooms/use-peerjs";
 import React from "react";
-import { setPeerId } from "~/utils/session.server";
+import type { usePeerServerConnection } from "../chat.rooms/use-peerjs";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];
@@ -27,11 +26,22 @@ export const meta: MetaFunction = () => {
 export const action = async ({ request, context }: ActionFunctionArgs) => {
   const form = await request.formData();
   const peerId = form.get("peerId");
-  const redirectTo = form.get("redirectTo");
-  if (typeof peerId !== "string" || typeof redirectTo !== "string") return;
+  const room = form.get("room");
+  if (typeof peerId !== "string" || typeof room !== "string") {
+    return json({ room: "" });
+  }
 
-  context.peerClientsById.get(peerId)?.send({ type: "welcome!!!" });
-  return setPeerId(peerId, redirectTo);
+  const currentPeer = context.peerClientsById.get(peerId);
+  if (!currentPeer) {
+    return json({ room: "" });
+  }
+
+  currentPeer.client.send({ type: "welcome!!!" });
+  currentPeer.currentRoom = room;
+
+  return json({
+    room,
+  });
 };
 
 export const loader = async () => {
@@ -46,78 +56,47 @@ export const loader = async () => {
 
 export default function ChatRoomsRoute() {
   const data = useLoaderData<typeof loader>();
-  const peer = useOutletContext<ReturnType<typeof usePeerjs>>();
+  const { peerId } =
+    useOutletContext<ReturnType<typeof usePeerServerConnection>>();
   const fetcher = useFetcher<typeof action>();
   const navigate = useNavigate();
 
   React.useEffect(
     function redirectOnFetcherData() {
-      if (!fetcher.data?.redirectTo) return;
-      navigate(fetcher.data.redirectTo);
+      if (!fetcher.data?.room) return;
+      navigate(`/chat/rooms/${fetcher.data.room}`);
     },
-    [fetcher.data?.redirectTo, navigate],
+    [fetcher.data?.room, navigate],
   );
 
   return (
-    <>
-      <h1>fetcher: {fetcher.state}</h1>
-      <h1>{JSON.stringify(fetcher.data)}</h1>
-      <ScrollArea className="max-h-fit rounded-lg border shadow-sm lg:mx-16">
-        <Table>
-          <TableHeader className="sticky top-0 bg-secondary">
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead className="w-1/6 text-center md:w-1/4">
-                Users
-              </TableHead>
-              <TableHead className="w-1/6 text-center md:w-1/4"></TableHead>
+    <ScrollArea className="max-h-fit rounded-lg border shadow-sm lg:mx-16">
+      <Table>
+        <TableHeader className="sticky top-0 bg-secondary">
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead className="w-1/6 text-center md:w-1/4">Users</TableHead>
+            <TableHead className="w-1/6 text-center md:w-1/4"></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="bg-slate-50 dark:bg-slate-700">
+          {data.rooms.map((room) => (
+            <TableRow key={room.id}>
+              <TableCell className="font-medium">{room.name}</TableCell>
+              <TableCell className="text-center">{room.userCount}</TableCell>
+              <TableCell className="text-center">
+                <fetcher.Form method="post">
+                  <input type="hidden" name="room" value={room.name} />
+                  <input type="hidden" name="peerId" value={peerId ?? ""} />
+                  <Button size="sm" variant="outline">
+                    Join
+                  </Button>
+                </fetcher.Form>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody className="bg-slate-50 dark:bg-slate-700">
-            {data.rooms.map((room) => (
-              <TableRow key={room.id}>
-                <TableCell className="font-medium">{room.name}</TableCell>
-                <TableCell className="text-center">{room.userCount}</TableCell>
-                <TableCell className="text-center">
-                  <fetcher.Form method="post">
-                    <input
-                      type="hidden"
-                      name="redirectTo"
-                      value={encodeURI(`/chat/rooms/${room.name}`)}
-                    />
-                    <input
-                      type="hidden"
-                      name="peerId"
-                      value={peer.peerId ?? ""}
-                    />
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      // onClick={() => {
-                      //   try {
-                      //     fetcher.submit(
-                      //       {
-                      //         peerId: peer.peerId ?? "",
-                      //         redirectTo: encodeURI(`/chat/rooms/${room.name}`),
-                      //       },
-                      //       {
-                      //         method: "POST",
-                      //       },
-                      //     );
-                      //   } catch (error) {
-                      //     alert("error");
-                      //   }
-                      // }}
-                    >
-                      Join
-                    </Button>
-                  </fetcher.Form>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ScrollArea>
-    </>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollArea>
   );
 }

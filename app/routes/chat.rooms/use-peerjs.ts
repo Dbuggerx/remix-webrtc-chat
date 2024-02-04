@@ -2,162 +2,155 @@ import type { DataConnection, PeerErrorType, Peer as PeerType } from "peerjs";
 import React from "react";
 
 export type ErrorType = `${(typeof PeerErrorType)[keyof typeof PeerErrorType]}`;
-type Config = {
-  onError: (error: ErrorType) => void;
-};
 
-export function usePeerjs(options: Config) {
-  const peer = React.useRef<PeerType>();
-  const initialized = React.useRef<boolean>();
+type ErrorHandler = (error: ErrorType) => void;
+type Msg = { peerId: string; msg: string; date: Date };
+
+export function usePeerServerConnection(onError: ErrorHandler) {
   const [peerId, setPeerId] = React.useState<string>();
-  const [outboundConnections, setOutboundConnections] = React.useState<
-    DataConnection[]
-  >([]);
-  const [inboundConnections, setInboundConnections] = React.useState<
-    DataConnection[]
-  >([]);
-  const [inboundMsgs, setInboundMsgs] = React.useState<
-    { peerId: string; msg: string }[]
-  >([]);
-
-  const onInboundConnectionOpen = React.useCallback((conn: DataConnection) => {
-    setInboundConnections((prev) => prev.concat(conn));
-  }, []);
-
-  const onInboundData = React.useCallback((c: DataConnection, d: string) => {
-    setInboundMsgs((prev) =>
-      prev.concat({
-        peerId: c.connectionId,
-        msg: d,
-      }),
-    );
-  }, []);
+  const peerRegistration = React.useRef<PeerType>();
 
   React.useEffect(() => {
-    // Prevent double run due to StrictMode
-    if (initialized.current) return;
-    initialized.current = true;
-    (async () => {
-      console.log("RUN");
-      const registration = await register(options.onError);
-      peer.current = registration.peer;
-      handleIncommingConnections(
-        registration.peer,
-        onInboundConnectionOpen,
-        onInboundData,
-      );
-      setPeerId(registration.peerId);
-    })();
-  }, [onInboundConnectionOpen, onInboundData, options.onError]);
+    function destroyRegistration() {
+      console.log(">>>>>DESTROY!");
+      peerRegistration.current?.removeAllListeners();
+      peerRegistration.current?.destroy();
+    }
 
-  const connectToPeer = React.useCallback(
-    async (peerId: string) => {
-      console.log({ outboundConnections });
-      if (outboundConnections.some((c) => c.peer === peerId)) {
-        console.error(`Peer ${peerId} is already connected!!!`);
-        return;
-      }
+    async function register() {
+      const { Peer } = await import("peerjs");
+      destroyRegistration();
 
-      if (!peer.current) throw new Error("`peer.current` not defined");
-
-      const conn = await connect(peer.current, peerId, onInboundData);
-      setOutboundConnections((prev) => prev.concat(conn));
-    },
-    [onInboundData, outboundConnections],
-  );
-
-  return {
-    peerId,
-    connectToPeer,
-    outboundConnections,
-    inboundConnections,
-    inboundMsgs,
-  };
-}
-
-async function register(setError: Config["onError"]) {
-  const { Peer } = await import("peerjs");
-  // Register with the peer server
-  const peer = new Peer({
-    host: "localhost",
-    port: 3000,
-    path: "/peerjs/myapp",
-    debug: 0,
-  });
-
-  peer.socket.addListener("message", (msg) => {
-    // TODO: handle custom messages from the server
-    console.log("SERVER MESSAGE", msg);
-  });
-
-  const peerId: string = await new Promise((resolve) => {
-    peer.on("open", (id: string) => {
-      peer.socket.send({
-        type: "seila",
-        payload: "zzzz",
+      peerRegistration.current = new Peer({
+        host: "/",
+        port: 3000,
+        path: "/peerjs/myapp",
+        debug: 0,
       });
 
-      console.log("OPEN", id);
-      resolve(id);
-    });
-  });
+      peerRegistration.current.on("open", (id) => {
+        setPeerId(id);
+        console.log(">>>>> Peer ID", id);
+      });
 
-  peer.on("error", (error) => {
-    console.error("Peerjs error:", error);
-    setError(error.type);
-  });
+      peerRegistration.current.on("error", (error) => {
+        console.error("Peerjs error:", error);
+        onError(error.type);
+      });
+    }
+    register();
 
-  return { peer, peerId };
+    return destroyRegistration;
+  }, [onError]);
+
+  return React.useMemo(() => ({ peerId, peerRegistration }), [peerId]);
 }
 
-function handleIncommingConnections(
-  peer: PeerType,
-  onConnectionOpen: (c: DataConnection) => void,
-  onData: (c: DataConnection, d: string) => void,
-) {
-  peer.on("connection", (conn: DataConnection) => {
-    console.log("incoming peer connection!");
-    conn.on("data", (data) => {
-      console.log(`received: ${data}`);
-      onData(conn, data as string);
-    });
-    conn.on("open", () => {
-      onConnectionOpen(conn);
-      conn.send("hello!");
-    });
-  });
-}
+export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
+  const connections = React.useRef(new Map<string, DataConnection>());
+  const [msgs, setMsgs] = React.useState<Msg[]>([]);
 
-async function connect(
-  peer: PeerType,
-  peerId: string,
-  onData: (c: DataConnection, d: string) => void,
-) {
-  console.log(`Connecting to ${peerId}...`);
+  React.useEffect(
+    function connectToOtherPeers() {
+      if (!peer?.id) throw new Error("No peer id!");
 
-  const conn = peer.connect(peerId, { reliable: true, serialization: "json" });
+      allPeerIdsInTheRoom
+        .filter((peerId) => peerId !== peer.id)
+        .forEach((peerId) => {
+          if (connections.current.has(peerId)) return;
 
-  conn.on("data", (data) => {
-    console.log(`received: ${data}`);
-    onData(conn, data as string);
-  });
+          console.log("connecting to", peerId);
+          const conn = peer.connect(peerId);
+          connections.current.set(peerId, conn);
 
-  await new Promise<void>((resolve) => {
-    conn.on("open", () => {
-      conn.send("hi!");
-      resolve();
-    });
-  });
+          conn.on("open", () => {
+            console.log("connected to", conn.peer);
+            conn.send("Hello World!");
+          });
+          conn.on("data", (data) => {
+            console.log("Received data", data);
+            setMsgs((prev) =>
+              prev.concat({
+                date: new Date(),
+                msg: data as string,
+                peerId: conn.peer,
+              }),
+            );
+          });
+          conn.on("close", () => {
+            console.log("connection closed with", conn.peer);
+            connections.current.delete(peerId);
+          });
+        });
 
-  return conn;
+      return () => {
+        for (const cn of connections.current.values()) {
+          console.log("closing connection with", cn.peer);
+          connections.current.delete(cn.peer);
+          cn.removeAllListeners();
+          cn.close();
+        }
+      };
+    },
+    [allPeerIdsInTheRoom, peer],
+  );
 
-  // navigator.mediaDevices
-  //   .getUserMedia({ video: true, audio: true })
-  //   .then((stream) => {
-  //     let call = peer.call(peerId, stream);
-  //     call.on('stream', renderVideo);
-  //   })
-  //   .catch((err) => {
-  //     console.log('Failed to get local stream', err);
-  //   });
+  React.useEffect(
+    function listenForConnections() {
+      if (!peer?.id) throw new Error("No peer id!");
+
+      const onConnection = (conn: DataConnection) => {
+        connections.current.set(conn.peer, conn);
+
+        conn.on("open", () => {
+          conn.send("Hi!");
+        });
+        conn.on("data", (data) => {
+          console.log("Received data", data);
+          setMsgs((prev) =>
+            prev.concat({
+              date: new Date(),
+              msg: data as string,
+              peerId: conn.peer,
+            }),
+          );
+        });
+        conn.on("close", () => {
+          console.log("connection closed with peer", conn.peer);
+          connections.current.delete(conn.peer);
+        });
+      };
+      peer.on("connection", onConnection);
+
+      return () => {
+        peer.off("connection", onConnection);
+      };
+    },
+    [peer],
+  );
+
+  const sendMsgToOtherPeers = React.useCallback(
+    (msg: string) => {
+      setMsgs((prev) =>
+        prev.concat({
+          date: new Date(),
+          msg: msg,
+          peerId: peer?.id || "",
+        }),
+      );
+
+      for (const cn of connections.current.values()) {
+        if (cn.peer === peer?.id) return;
+
+        console.log("Sending to", cn.peer);
+        cn.send(msg);
+      }
+    },
+    [peer?.id],
+  );
+
+  return React.useMemo(
+    () => ({ msgs, sendMsgToOtherPeers }),
+    [msgs, sendMsgToOtherPeers],
+  );
 }

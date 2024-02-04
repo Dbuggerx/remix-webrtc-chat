@@ -1,4 +1,4 @@
-import { createCookieSessionStorage, json } from "@remix-run/node";
+import { createCookieSessionStorage } from "@remix-run/node";
 import { createThemeSessionResolver } from "remix-themes";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -35,25 +35,4 @@ export async function getUserId(request: Request) {
     return null;
   }
   return userId;
-}
-
-export async function setPeerId(peerId: string, redirectTo: string) {
-  const session = await sessionStorage.getSession();
-  session.set("peerId", peerId);
-
-  // throw new Response("simulating an error", {
-  //   status: 500,
-  // });
-  // throw new Error("aaaaaa");
-
-  return json(
-    {
-      redirectTo,
-    },
-    {
-      headers: {
-        "Set-Cookie": await sessionStorage.commitSession(session),
-      },
-    },
-  );
 }

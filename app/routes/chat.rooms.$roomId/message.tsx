@@ -9,11 +9,11 @@ import {
 type Props = {
   msg: string;
   sender: string;
-  receivedAt: Date;
+  date: Date;
   fromUser?: boolean;
 };
 
-export default function Message({ msg, sender, fromUser, receivedAt }: Props) {
+export default function Message({ msg, sender, fromUser, date }: Props) {
   return (
     <div
       className={clsx("flex gap-2 pb-3", {
@@ -31,19 +31,13 @@ export default function Message({ msg, sender, fromUser, receivedAt }: Props) {
         )}
       >
         {msg}
-        <ReceivedDate receivedAt={receivedAt} onAccentBg={!fromUser} />
+        <MsgDate date={date} onAccentBg={!fromUser} />
       </div>
     </div>
   );
 }
 
-function ReceivedDate({
-  receivedAt,
-  onAccentBg,
-}: {
-  receivedAt: Date;
-  onAccentBg?: boolean;
-}) {
+function MsgDate({ date, onAccentBg }: { date: Date; onAccentBg?: boolean }) {
   return (
     <p
       className={clsx("mt-2 self-end text-xs text-gray-300", {
@@ -51,8 +45,7 @@ function ReceivedDate({
         "text-gray-600": !onAccentBg,
       })}
     >
-      Received{" "}
-      {receivedAt.toLocaleDateString(undefined, {
+      {date.toLocaleDateString(undefined, {
         hour: "numeric",
       })}
     </p>

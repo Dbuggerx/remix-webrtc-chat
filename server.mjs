@@ -21,35 +21,45 @@ const peerServer = ExpressPeerServer(server, {
   path: "/myapp",
 });
 
-const peerClientsById = new Map();
+/**
+ * @typedef {import("peer").IClient} IClient
+ *
+ * @typedef {Object} ClientInfo
+ * @property {IClient} client
+ * @property {string} currentRoom
+ */
+
+/** @type {Map<string, ClientInfo>} */
+export const peerClientsById = new Map();
 
 peerServer.on(
   "connection",
   /**
-   * @param {import("peer/dist/peer.js").IClient} client
+   * @param {IClient} client
    */
   (client) => {
-    peerClientsById.set(client.getId(), client);
-    console.log("CLIENT CONNECTED!", client.getId());
+    peerClientsById.set(client.getId(), {
+      client,
+      currentRoom: undefined,
+    });
+    console.log("New peer connected", client.getId());
     client.send({ type: "TEST", payload: "mock" });
-    // console.log(server, peerServer);
+  },
+);
+peerServer.on(
+  "disconnect",
+  /**
+   * @param {IClient} client
+   */
+  (client) => {
+    peerClientsById.delete(client.getId());
+    console.log("Peer disconnected", client.getId());
   },
 );
 
-// peerServer.on(
-//   "message",
-//   /**
-//    * @param {import("peer/dist/peer.js").IClient} client
-//    * @param {import("peer/dist/peer.js").IMessage} message
-//    */
-//   (client, message) => {
-//     console.log("CLIENT MESSAGE!", client.getId(), { message });
-//   },
-// );
-
 app.use("/peerjs", peerServer);
 
-// and your app is "just a request handler"
+// the Remix app is "just a request handler"
 app.all(
   "*",
   createRequestHandler({
