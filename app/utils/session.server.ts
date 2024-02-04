@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node";
+import { createCookieSessionStorage, json } from "@remix-run/node";
 import { createThemeSessionResolver } from "remix-themes";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -10,7 +10,7 @@ if (!sessionSecret) {
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "theme",
+    name: "session",
     path: "/",
     httpOnly: true,
     sameSite: "lax",
@@ -23,3 +23,37 @@ const sessionStorage = createCookieSessionStorage({
 });
 
 export const themeSessionResolver = createThemeSessionResolver(sessionStorage);
+
+function getUserSession(request: Request) {
+  return sessionStorage.getSession(request.headers.get("Cookie"));
+}
+
+export async function getUserId(request: Request) {
+  const session = await getUserSession(request);
+  const userId = session.get("userId");
+  if (!userId || typeof userId !== "string") {
+    return null;
+  }
+  return userId;
+}
+
+export async function setPeerId(peerId: string, redirectTo: string) {
+  const session = await sessionStorage.getSession();
+  session.set("peerId", peerId);
+
+  // throw new Response("simulating an error", {
+  //   status: 500,
+  // });
+  // throw new Error("aaaaaa");
+
+  return json(
+    {
+      redirectTo,
+    },
+    {
+      headers: {
+        "Set-Cookie": await sessionStorage.commitSession(session),
+      },
+    },
+  );
+}

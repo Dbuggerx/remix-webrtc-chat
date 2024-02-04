@@ -30,6 +30,7 @@ export const loader = async () => {
 
 export default function ChatRoomRoute() {
   const data = useLoaderData<typeof loader>();
+
   return (
     <div className="flex h-full flex-col gap-4 lg:mx-16">
       <TooltipProvider>
