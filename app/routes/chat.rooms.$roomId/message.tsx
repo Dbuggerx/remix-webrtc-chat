@@ -1,10 +1,6 @@
 import clsx from "clsx";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
+import MobileFriendlyTooltip from "~/components/ui/mobile-friendly-tooltip";
 
 type Props = {
   msg: string;
@@ -54,17 +50,15 @@ function MsgDate({ date, onAccentBg }: { date: Date; onAccentBg?: boolean }) {
 
 function MsgAvatar({ name }: { name: string }) {
   return (
-    <Tooltip>
-      <TooltipTrigger className="cursor-default">
+    <MobileFriendlyTooltip
+      trigger={
         <Avatar>
           <AvatarFallback className="select-none bg-slate-200 dark:bg-muted">
             {name.substring(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-      </TooltipTrigger>
-      <TooltipContent className="select-none">
-        <p>{name}</p>
-      </TooltipContent>
-    </Tooltip>
+      }
+      content={<p>{name}</p>}
+    />
   );
 }
