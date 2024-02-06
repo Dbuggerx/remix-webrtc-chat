@@ -13,7 +13,7 @@ export default function UserMenu({ username }: { username: string }) {
       <DropdownMenuTrigger asChild>
         <Button className="px-2" variant="ghost">
           <User />
-          {username}
+          <span className="hidden sm:inline">{username}</span>
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>

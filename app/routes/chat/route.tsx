@@ -30,7 +30,7 @@ export default function ChatRoute() {
   return (
     <article className="flex h-dvh w-dvw bg-gray-100 dark:bg-gray-900">
       <SidePanel roomCount={data.roomCount} />
-      <div className="flex flex-auto flex-col">
+      <section className="flex max-w-full flex-auto flex-col overflow-hidden">
         <Header
           username={data.usename}
           currentLocation={currentLocation}
@@ -39,7 +39,7 @@ export default function ChatRoute() {
         <main className="flex flex-1 flex-col gap-4 overflow-hidden p-4 ">
           <Outlet />
         </main>
-      </div>
+      </section>
     </article>
   );
 }

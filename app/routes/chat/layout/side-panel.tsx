@@ -9,7 +9,7 @@ type Props = {
 
 export default function SidePanel({ roomCount }: Props) {
   return (
-    <aside className="h-full min-w-[65px] max-w-[12em] flex-1 border-r bg-white @container dark:bg-gray-800 dark:text-white">
+    <aside className="h-full min-w-[65px] max-w-[65px] flex-1 border-r bg-white @container dark:bg-gray-800 dark:text-white">
       <div className="flex h-20 items-center justify-center border-b @xxs:justify-start @xxs:px-6">
         <Link to="/" className="flex items-center gap-2 font-semibold">
           <MessageCircleMore className="size-10 @xxs:size-6" />
