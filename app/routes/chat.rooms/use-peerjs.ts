@@ -9,9 +9,11 @@ type Msg = { peerId: string; msg: string; date: Date };
 export function usePeerServerConnection(onError: ErrorHandler) {
   const [peerId, setPeerId] = React.useState<string>();
   const peerRegistration = React.useRef<PeerType>();
+  const abort = React.useRef<AbortController>(new AbortController());
 
   React.useEffect(() => {
     function destroyRegistration() {
+      abort.current.abort();
       console.log(">>>>>DESTROY!");
       peerRegistration.current?.removeAllListeners();
       peerRegistration.current?.destroy();
@@ -19,24 +21,31 @@ export function usePeerServerConnection(onError: ErrorHandler) {
 
     async function register() {
       const { Peer } = await import("peerjs");
-      destroyRegistration();
 
-      peerRegistration.current = new Peer({
+      if (abort.current.signal.aborted) {
+        abort.current = new AbortController();
+        return;
+      }
+
+      const registration = new Peer({
         host: "/",
         port: 3000,
         path: "/peerjs/myapp",
         debug: 0,
       });
 
-      peerRegistration.current.on("open", (id) => {
+      registration.on("open", (id) => {
         setPeerId(id);
         console.log(">>>>> Peer ID", id);
       });
 
-      peerRegistration.current.on("error", (error) => {
+      registration.on("error", (error) => {
         console.error("Peerjs error:", error);
         onError(error.type);
       });
+
+      peerRegistration.current = registration;
+      abort.current = new AbortController();
     }
     register();
 
