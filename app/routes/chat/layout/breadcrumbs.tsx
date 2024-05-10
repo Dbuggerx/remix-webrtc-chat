@@ -17,11 +17,10 @@ export default function Breadcrumbs({ currentLocation, matches }: Props) {
   return (
     <nav className="flex flex-shrink flex-row overflow-hidden whitespace-nowrap">
       {matches.filter(isCustomHandle).map((match, index, arr) => (
-        <>
+        <React.Fragment key={match.pathname}>
           {index > 0 ? <span className="mx-2 hidden sm:inline">/</span> : null}
           {match.handle.label.includes("$") ? (
             <DynamicBreadcrumbMemo
-              key={match.pathname}
               currentPathName={currentLocation.pathname}
               dynamicParam={match.handle.label}
               targetPath={match.handle.targetPath}
@@ -29,14 +28,13 @@ export default function Breadcrumbs({ currentLocation, matches }: Props) {
             />
           ) : (
             <StaticBreadcrumbMemo
-              key={match.pathname}
               currentPathName={currentLocation.pathname}
               label={match.handle.label}
               targetPath={match.handle.targetPath}
               shrink={index < arr.length - 1}
             />
           )}
-        </>
+        </React.Fragment>
       ))}
     </nav>
   );
