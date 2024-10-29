@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { useActionData, useSearchParams } from "@remix-run/react";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -8,115 +8,11 @@ import { ThemeModeToggle } from "~/components/theme-mode-toggle";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import React from "react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { badRequest } from "~/utils/request.server";
-import { findUserByUsername } from "~/utils/db-mock.server";
-import {
-  createUserSession,
-  login,
-  register,
-} from "~/utils/session.server";
+import type { action } from "./action";
+export { action } from "./action";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat" }];
-};
-
-function validateUsername(username: string) {
-  if (username.length < 3) {
-    return "Usernames must be at least 3 characters long";
-  }
-}
-
-function validatePassword(password: string) {
-  if (password.length < 6) {
-    return "Passwords must be at least 6 characters long";
-  }
-}
-
-function validateUrl(url: string) {
-  const urls = ["/chat", "/"];
-  if (urls.includes(url)) {
-    return url;
-  }
-  return "/chat";
-}
-
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
-  const form = await request.formData();
-  const loginType = form.get("loginType");
-  const password = form.get("password");
-  const username = form.get("username");
-  const redirectTo = validateUrl(
-    (form.get("redirectTo") as string) || "/chat"
-  );
-  if (
-    typeof loginType !== "string" ||
-    typeof password !== "string" ||
-    typeof username !== "string"
-  ) {
-    return badRequest({
-      fieldErrors: null,
-      fields: null,
-      formError: "Form not submitted correctly.",
-    });
-  }
-
-  const fields = { loginType, password, username };
-  const fieldErrors = {
-    password: validatePassword(password),
-    username: validateUsername(username),
-  };
-  if (Object.values(fieldErrors).some(Boolean)) {
-    return badRequest({
-      fieldErrors,
-      fields,
-      formError: null,
-    });
-  }
-
-  switch (loginType) {
-    case "login": {
-      const user = await login({ username, password });
-      console.log({ user });
-      if (!user) {
-        return badRequest({
-          fieldErrors: null,
-          fields,
-          formError:
-            "Username/Password combination is incorrect",
-        });
-      }
-      return createUserSession(user, redirectTo);
-    }
-    case "register": {
-      const userExists = await findUserByUsername(username);
-      if (userExists) {
-        return badRequest({
-          fieldErrors: null,
-          fields,
-          formError: `User with username ${username} already exists`,
-        });
-      }
-      const user = await register({ username, password });
-      if (!user) {
-        return badRequest({
-          fieldErrors: null,
-          fields,
-          formError:
-            "Something went wrong trying to create a new user.",
-        });
-      }
-      return createUserSession(user, redirectTo);
-    }
-    default: {
-      return badRequest({
-        fieldErrors: null,
-        fields,
-        formError: "Login type invalid",
-      });
-    }
-  }
 };
 
 export default function LoginRoute() {
