@@ -19,8 +19,8 @@ export default function UserMenu({ username }: { username: string }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <form action="/logout" method="post">
-            <button type="submit" className="button">
+          <form action="/logout" method="post" className="w-full">
+            <button type="submit" className="button w-full">
               Logout
             </button>
           </form>

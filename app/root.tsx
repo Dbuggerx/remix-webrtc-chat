@@ -51,11 +51,11 @@ function App() {
     <html lang="en" className={clsx(theme)}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="description" content="Realtime P2P chat app developed with Remix, React"></meta>
         <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=2"
+          name="description"
+          content="Realtime P2P chat app developed with Remix, React"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <Meta />
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />

@@ -30,9 +30,9 @@ export default function ChatRoute() {
   const currentLocation = useLocation();
 
   return (
-    <article className="flex h-dvh w-dvw bg-gray-100 dark:bg-gray-900">
+    <article className="flex min-h-dvh w-full overflow-auto bg-gray-100 dark:bg-gray-900">
       <SidePanel roomCount={data.roomCount} />
-      <section className="flex max-w-full flex-auto flex-col overflow-hidden">
+      <section className="flex max-w-full w-full flex-col overflow-hidden">
         <Header
           username={data.usename}
           currentLocation={currentLocation}
