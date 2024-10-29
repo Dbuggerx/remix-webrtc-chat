@@ -44,12 +44,12 @@ export default function LoginRoute() {
               }}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Login" id="loginOpt" />
-                <Label htmlFor="loginOpt">Login</Label>
+                <RadioGroupItem value="Login" id="loginOpt" aria-labelledby="login-label" />
+                <Label htmlFor="loginOpt" id="login-label">Login</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Register" id="registerOpt" />
-                <Label htmlFor="registerOpt">Register</Label>
+                <RadioGroupItem value="Register" id="registerOpt" aria-labelledby="register-label" />
+                <Label htmlFor="registerOpt" id="register-label">Register</Label>
               </div>
             </RadioGroup>
             <div>
@@ -83,7 +83,7 @@ export default function LoginRoute() {
             </div>
             <Alert
               variant="destructive"
-              className="dark:border-2 dark:bg-slate-950/[0.6] dark:font-bold"
+              className="dark:border-2 dark:bg-red-950 dark:font-bold text-white"
             >
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
