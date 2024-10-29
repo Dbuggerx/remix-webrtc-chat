@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
   Outlet,
   json,
@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import Header from "./layout/header";
 import SidePanel from "./layout/side-panel";
+import { getUser } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Chat" }];
@@ -18,8 +19,9 @@ export const handle = {
   targetPath: "/chat",
 };
 
-export const loader = async () => {
-  return json({ roomCount: 10, usename: "User" });
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const user = await getUser(request);
+  return json({ roomCount: 10, usename: user.username });
 };
 
 export default function ChatRoute() {
