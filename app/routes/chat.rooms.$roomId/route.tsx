@@ -11,6 +11,7 @@ import { TooltipProvider } from "~/components/ui/tooltip";
 import type { usePeerServerConnection } from "../chat.rooms/use-peerjs";
 import { usePeerjs } from "../chat.rooms/use-peerjs";
 import React from "react";
+import { getUser } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat" }];
@@ -21,11 +22,12 @@ export const handle = {
   targetPath: "/chat/rooms/$roomId",
 };
 
-export const loader = async ({ params, context }: LoaderFunctionArgs) => {
+export const loader = async ({ params, context, request }: LoaderFunctionArgs) => {
   return json({
     peersInTheRoom: Array.from(context.peerClientsById.values())
       .filter((peer) => peer.currentRoom === params.roomId)
       .map((peer) => peer.client.getId()),
+    username: (await getUser(request)).username
   });
 };
 
@@ -37,6 +39,7 @@ export default function ChatRoomRoute() {
   const { msgs, sendMsgToOtherPeers } = usePeerjs(
     data.peersInTheRoom,
     peerRegistration.current,
+    data.username
   );
 
   React.useEffect(
@@ -64,8 +67,8 @@ export default function ChatRoomRoute() {
           {msgs.map((m) => (
             <Message
               key={m.date.valueOf()}
-              msg={m.msg}
-              sender={m.peerId}
+              msg={m.payload.text}
+              sender={m.payload.username}
               fromUser={m.peerId === peerId}
               date={m.date}
             />

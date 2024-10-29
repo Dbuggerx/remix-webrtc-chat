@@ -43,7 +43,7 @@ peerServer.on(
       currentRoom: undefined,
     });
     console.log("New peer connected", client.getId());
-    client.send({ type: "TEST", payload: "mock" });
+    // client.send({ type: "TEST", payload: "mock" });
   },
 );
 peerServer.on(

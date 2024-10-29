@@ -36,7 +36,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     return json({ room: "" });
   }
 
-  currentPeer.client.send({ type: "welcome!!!" });
+  // currentPeer.client.send({ type: "welcome!!!" });
   currentPeer.currentRoom = room;
 
   return json({

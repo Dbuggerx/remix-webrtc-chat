@@ -11,12 +11,8 @@ export async function findUserByUsername(username: string) {
   return users.find((user) => user.username === username) || null;
 }
 
-export async function findUserById(id: string) {
-  // Simulating a database lookup
-  return users.find((user) => user.id === id) || null;
-}
-
 export function createUser(username: string, passwordHash: string) {
+  // Simulating a database insert
   const newUser = {
     id: Math.floor(Math.random() * 1000).toString(),
     username,

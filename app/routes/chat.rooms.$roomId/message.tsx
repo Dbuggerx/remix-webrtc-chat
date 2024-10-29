@@ -54,7 +54,7 @@ function MsgAvatar({ name }: { name: string }) {
       trigger={
         <Avatar>
           <AvatarFallback className="select-none bg-slate-200 dark:bg-muted">
-            {name.substring(0, 2).toUpperCase()}
+            {name?.substring(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       }

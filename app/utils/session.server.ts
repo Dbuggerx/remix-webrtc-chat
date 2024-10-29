@@ -1,7 +1,7 @@
 import { createCookieSessionStorage, json, redirect } from "@remix-run/node";
 import { createThemeSessionResolver } from "remix-themes";
 import bcrypt from "bcryptjs";
-import { createUser, findUserById, findUserByUsername } from "./db-mock.server";
+import { createUser, findUserByUsername } from "./db-mock.server";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -76,14 +76,6 @@ export async function createUserSession(
     },
   });
 }
-
-// export async function getUser() {
-//   const session = await userStorage.getSession();
-//   const user = session.get("user");
-//   console.log({user});
-
-//   return json({ user });
-// }
 
 function getUserSession(request: Request) {
   return userStorage.getSession(request.headers.get("Cookie"));

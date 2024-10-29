@@ -4,7 +4,11 @@ import React from "react";
 export type ErrorType = `${(typeof PeerErrorType)[keyof typeof PeerErrorType]}`;
 
 type ErrorHandler = (error: ErrorType) => void;
-type Msg = { peerId: string; msg: string; date: Date };
+type Msg = {
+  peerId: string;
+  payload: { text: string; username: string };
+  date: Date;
+};
 
 export function usePeerServerConnection(onError: ErrorHandler) {
   const [peerId, setPeerId] = React.useState<string>();
@@ -55,7 +59,11 @@ export function usePeerServerConnection(onError: ErrorHandler) {
   return React.useMemo(() => ({ peerId, peerRegistration }), [peerId]);
 }
 
-export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
+export function usePeerjs(
+  allPeerIdsInTheRoom: string[],
+  peer?: PeerType,
+  username?: string,
+) {
   const connections = React.useRef(new Map<string, DataConnection>());
   const [msgs, setMsgs] = React.useState<Msg[]>([]);
 
@@ -74,14 +82,17 @@ export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
 
           conn.on("open", () => {
             console.log("connected to", conn.peer);
-            conn.send("Hello World!");
+            conn.send({
+              text: "Hello World!",
+              username: username ?? "???",
+            } satisfies Msg["payload"]);
           });
           conn.on("data", (data) => {
             console.log("Received data", data);
             setMsgs((prev) =>
               prev.concat({
                 date: new Date(),
-                msg: data as string,
+                payload: data as Msg["payload"],
                 peerId: conn.peer,
               }),
             );
@@ -112,14 +123,17 @@ export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
         connections.current.set(conn.peer, conn);
 
         conn.on("open", () => {
-          conn.send("Hi!");
+          conn.send({
+            text: "Hi!",
+            username: username ?? "???",
+          } satisfies Msg["payload"]);
         });
         conn.on("data", (data) => {
           console.log("Received data", data);
           setMsgs((prev) =>
             prev.concat({
               date: new Date(),
-              msg: data as string,
+              payload: data as Msg["payload"],
               peerId: conn.peer,
             }),
           );
@@ -143,7 +157,10 @@ export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
       setMsgs((prev) =>
         prev.concat({
           date: new Date(),
-          msg: msg,
+          payload: {
+            text: msg,
+            username: username ?? "???",
+          },
           peerId: peer?.id || "",
         }),
       );
@@ -152,7 +169,10 @@ export function usePeerjs(allPeerIdsInTheRoom: string[], peer?: PeerType) {
         if (cn.peer === peer?.id) return;
 
         console.log("Sending to", cn.peer);
-        cn.send(msg);
+        cn.send({
+          text: msg,
+          username: username ?? "???",
+        } satisfies Msg["payload"]);
       }
     },
     [peer?.id],
