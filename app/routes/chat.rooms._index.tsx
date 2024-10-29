@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import React from "react";
-import type { usePeerServerConnection } from "../chat.rooms/use-peerjs";
+import type { usePeerServerConnection } from "./chat.rooms/use-peerjs";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Remix WebRTC Chat - Rooms" }];

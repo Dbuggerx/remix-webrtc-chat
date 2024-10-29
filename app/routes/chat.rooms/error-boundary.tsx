@@ -2,7 +2,7 @@ import { FrownIcon } from "lucide-react";
 
 export default function ErrorBoundary() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-full flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="space-y-4">
         <FrownIcon className="h-12 w-12 text-gray-500 dark:text-gray-400" />
         <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">

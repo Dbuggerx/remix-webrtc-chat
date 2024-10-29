@@ -93,7 +93,7 @@ export default function ChatRoomRoute() {
           onClick={broadcastMsg}
           disabled={!canSendMsg}
         >
-          <SendIcon className="h-6 w-6" />
+          <SendIcon className="h-6 w-6 p-1 text-foreground" />
         </Button>
       </div>
     </div>

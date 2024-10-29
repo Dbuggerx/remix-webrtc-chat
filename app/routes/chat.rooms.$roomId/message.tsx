@@ -43,6 +43,7 @@ function MsgDate({ date, onAccentBg }: { date: Date; onAccentBg?: boolean }) {
     >
       {date.toLocaleDateString(undefined, {
         hour: "numeric",
+        minute: "numeric"
       })}
     </p>
   );

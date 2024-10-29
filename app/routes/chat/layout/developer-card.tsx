@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 
 export default function DeveloperCard() {
   return (
-    <Card className="rounded-lg border-0 bg-inherit text-center text-card-foreground shadow-sm @xxs:border @xxs:bg-card @xxs:text-left">
+    <Card className="border-0 bg-inherit text-center @xxs:border @xxs:bg-card @xxs:text-left">
       <CardHeader className="pb-0">
         <CardDescription className="hidden flex-col space-y-1.5 @xxs:flex">
           Developed by <br />
