@@ -9,7 +9,8 @@
     "dev": "remix dev -c \"node server.mjs\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "test": "tsx test"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -56,6 +57,8 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
+    "testcafe": "3.7.0-rc.4",
+    "tsx": "^4.19.2",
     "typescript": "5.4.5"
   },
   "engines": {
