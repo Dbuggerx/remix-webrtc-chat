@@ -73,6 +73,23 @@
   }
   body {
     @apply bg-background text-foreground;
+    scrollbar-width: thin;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-primary-foreground;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-500;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary;
   }
 }
 

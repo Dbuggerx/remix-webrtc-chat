@@ -2,7 +2,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "~/lib/utils";
 
 const variants = cva(
-  "flex h-14 w-full items-center border-b px-4 dark:border-slate-700",
+  "flex h-14 w-full shrink-0 items-center border-b px-4 dark:border-slate-700",
   {
     variants: {
       content: { centered: "justify-center" },

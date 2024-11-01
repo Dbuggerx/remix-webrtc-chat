@@ -18,7 +18,7 @@ export function usePeerServerConnection(onError: ErrorHandler) {
   React.useEffect(() => {
     function destroyRegistration() {
       abort.current.abort();
-      console.log(">>>>>DESTROY!");
+      console.log(">>>>> Destroy registration");
       peerRegistration.current?.removeAllListeners();
       peerRegistration.current?.destroy();
     }

@@ -10,7 +10,7 @@ type Props = {
 
 export default function SidePanel({ roomCount }: Props) {
   return (
-    <aside className="min-h-full min-w-[65px] border-r bg-white px-2 pb-4 @container dark:bg-gray-800 dark:text-white sm:w-1/2 sm:px-6">
+    <aside className="@container overflow-auto min-w-[65px] sm:w-1/2 lg:max-xl:w-1/3 xl:w-1/4 border-r bg-white dark:bg-gray-800 px-2 sm:px-6 pb-4 flex flex-col h-full">
       <TopBar content="centered">
         <Link
           to="/"
@@ -23,8 +23,8 @@ export default function SidePanel({ roomCount }: Props) {
           </span>
         </Link>
       </TopBar>
-      <div className="flex-1 overflow-auto py-2">
-        <nav className="my-6 flex flex-col items-stretch justify-center gap-6 text-sm font-medium sm:my-2 sm:h-auto sm:gap-4">
+      <div className="flex-1 shrink-0 py-2">
+        <nav className="my-6 flex flex-col items-stretch justify-center gap-6 text-sm font-medium sm:my-2 sm:gap-4">
           <MenuItem
             to="/chat"
             end

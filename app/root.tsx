@@ -55,12 +55,12 @@ function App() {
           name="description"
           content="Realtime P2P chat app developed with Remix, React"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, interactive-widget=resizes-content" />
         <Meta />
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
-      <body>
+      <body className="min-h-dvh max-h-dvh h-dvh">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

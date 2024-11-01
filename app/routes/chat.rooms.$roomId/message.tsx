@@ -12,21 +12,21 @@ type Props = {
 export default function Message({ msg, sender, fromUser, date }: Props) {
   return (
     <div
-      className={clsx("flex gap-2 pb-3", {
+      className={clsx("flex gap-2 pb-3 max-w-full", {
         "flex-row-reverse justify-end": fromUser,
       })}
     >
       <MsgAvatar name={sender} />
       <div
         className={clsx(
-          "flex flex-grow flex-col justify-between gap-2 rounded-lg p-2  sm:flex-row",
+          "flex flex-grow flex-col justify-between gap-2 rounded-lg p-2 overflow-hidden sm:flex-row",
           {
             "bg-blue-500 text-white": !fromUser,
             "bg-gray-200 p-2 dark:bg-gray-800": fromUser,
           },
         )}
       >
-        {msg}
+        <div className="overflow-auto">{msg}</div>
         <MsgDate date={date} onAccentBg={!fromUser} />
       </div>
     </div>
