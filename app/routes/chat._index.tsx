@@ -1,6 +1,6 @@
 export default function ChatIndex() {
   return (
-    <article>
+    <article className="overflow-auto">
       <header className="mb-6">
         <h1 className="text-2xl">Remix WebRTC Chat</h1>
         <p className="text-slate-600 dark:text-muted-foreground">

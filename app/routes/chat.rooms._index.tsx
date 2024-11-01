@@ -70,7 +70,7 @@ export default function ChatRoomsRoute() {
   );
 
   return (
-    <ScrollArea className="max-h-fit rounded-lg border shadow-sm lg:mx-16">
+    <div className="rounded-lg border shadow-sm lg:mx-16 overflow-auto">
       <Table>
         <TableHeader className="sticky top-0 bg-secondary">
           <TableRow>
@@ -97,6 +97,6 @@ export default function ChatRoomsRoute() {
           ))}
         </TableBody>
       </Table>
-    </ScrollArea>
+    </div>
   );
 }

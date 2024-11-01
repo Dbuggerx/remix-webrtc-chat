@@ -22,12 +22,16 @@ export const handle = {
   targetPath: "/chat/rooms/$roomId",
 };
 
-export const loader = async ({ params, context, request }: LoaderFunctionArgs) => {
+export const loader = async ({
+  params,
+  context,
+  request,
+}: LoaderFunctionArgs) => {
   return json({
     peersInTheRoom: Array.from(context.peerClientsById.values())
       .filter((peer) => peer.currentRoom === params.roomId)
       .map((peer) => peer.client.getId()),
-    username: (await getUser(request)).username
+    username: (await getUser(request)).username,
   });
 };
 
@@ -39,7 +43,7 @@ export default function ChatRoomRoute() {
   const { msgs, sendMsgToOtherPeers } = usePeerjs(
     data.peersInTheRoom,
     peerRegistration.current,
-    data.username
+    data.username,
   );
 
   React.useEffect(
@@ -61,9 +65,9 @@ export default function ChatRoomRoute() {
   if (!peerId) return null;
 
   return (
-    <div className="flex h-full flex-col gap-4 lg:mx-16">
+    <article className="flex h-full flex-col gap-4 lg:mx-16">
       <TooltipProvider>
-        <ScrollArea className="flex flex-1 px-4">
+        <section className="flex max-w-full flex-1 flex-col overflow-auto">
           {msgs.map((m) => (
             <Message
               key={m.date.valueOf()}
@@ -73,11 +77,12 @@ export default function ChatRoomRoute() {
               date={m.date}
             />
           ))}
-        </ScrollArea>
+        </section>
       </TooltipProvider>
-      <div className="flex items-center gap-2 border-t p-4 pb-0">
+      <footer className="flex items-center gap-2 border-t pt-4">
         <Input
           className="flex-grow"
+          type="text"
           placeholder="Type a message"
           value={msgToSend}
           onChange={(e) => {
@@ -95,7 +100,7 @@ export default function ChatRoomRoute() {
         >
           <SendIcon className="h-6 w-6 p-1 text-foreground" />
         </Button>
-      </div>
-    </div>
+      </footer>
+    </article>
   );
 }
