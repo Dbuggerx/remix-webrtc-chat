@@ -11,7 +11,10 @@
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "test": "testcafe",
-    "test:dev": "testcafe --config-file=.testcaferc-dev.cjs"
+    "test:dev": "testcafe --config-file=.testcaferc.base.cjs",
+    "test:remote": "pnpm test:dev remote --qr-code",
+    "test:vrt": "tsx test",
+    "test:vrt:approve": "VRT_APPROVE=true pnpm test:vrt"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.2",
@@ -42,9 +45,12 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@remix-run/dev": "^2.13.1",
     "@testing-library/testcafe": "^5.0.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
@@ -56,10 +62,13 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.14",
     "testcafe": "^3.7.0",
+    "tsx": "^4.19.2",
     "typescript": "5.6.3"
   },
   "engines": {

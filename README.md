@@ -2,6 +2,10 @@
 
 # Remix WebRTC Chat
 
+
+![Remix WebRTC Chat](https://raw.githubusercontent.com/Dbuggerx/remix-webrtc-chat/refs/heads/main/test/screenshots/base/Chrome/Chat%20room%20route-can%20send%20a%20chat%20message%20by%20pressing%20enter-1.png)
+
+
 Welcome to the Remix WebRTC Chat project!
 This application uses Remix for routing and managing state, React for creating interactive UIs, WebRTC with PeerJS for peer-to-peer communication, and TailwindCSS with Radix-UI for styling and UI components. TypeScript provides static types for safer and more robust development, and Pnpm is used for package management.
 **It's a work in progress**.
@@ -13,7 +17,7 @@ This application uses Remix for routing and managing state, React for creating i
 - WebRTC (PeerJS): PeerJS simplifies WebRTC peer-to-peer data, video, and audio calls. It abstracts away much of the underlying complexity and lets you focus on writing powerful, feature-rich apps.
 - Shadcn (TailwindCSS, Radix-UI): Shadcn combines the utility-first styling of TailwindCSS with the accessibility-focused primitives of Radix-UI. It provides a robust set of tools for building custom designs with ease.
 - Pnpm: a fast, disk space efficient package manager for JavaScript.
-- Tests done with [TestCafe](https://devexpress.github.io/testcafe/documentation/getting-started/) and the [Testing-Library](https://testing-library.com/docs/testcafe-testing-library/intro).
+- Tests done with [TestCafe](https://devexpress.github.io/testcafe/documentation/getting-started/) (chosen for its simplicity and versatility of execution in local and remote browsers) and the [Testing-Library](https://testing-library.com/docs/testcafe-testing-library/intro) (for encouraging good testing and accessibility practices).
 
 ## Features
 

@@ -1,24 +1,30 @@
 const { spawn } = require("child_process");
 
 module.exports = {
-  ...require("./.testcaferc-dev.cjs"),
-  hooks: {
-    testRun: {
-      before: async (ctx) => {
-        ctx.server = await startRemix();
-      },
-      after: async (ctx) => {
-        ctx.server.kill();
-      },
-    },
-  },
+  ...require("./.testcaferc.base.cjs"),
+  // hooks: {
+  //   testRun: {
+  //     before: async (ctx) => {
+  //       ctx.server = await startRemix();
+  //     },
+  //     after: async (ctx) => {
+  //       ctx.server.kill();
+  //     },
+  //   },
+  // },
 };
 
 function startRemix() {
   return new Promise((resolve) => {
     const child = spawn("pnpm", ["run", "dev"], {
-      stdio: ["pipe", "pipe", "pipe"],
       shell: true,
+    });
+
+    child.on("exit", (code, signal) => {
+      console.log(`Closing Remix server due to receipt of signal '${signal}'`);
+      child.stdin.end();
+      child.stdout.destroy();
+      child.stderr.destroy();
     });
 
     child.stderr.on("data", (data) => {
