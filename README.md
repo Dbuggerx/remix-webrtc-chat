@@ -1,8 +1,10 @@
+**Please leave a star if you like it!**
+
 # Remix WebRTC Chat
 
 Welcome to the Remix WebRTC Chat project!
 This application uses Remix for routing and managing state, React for creating interactive UIs, WebRTC with PeerJS for peer-to-peer communication, and TailwindCSS with Radix-UI for styling and UI components. TypeScript provides static types for safer and more robust development, and Pnpm is used for package management.
-**It's currently a work in progress**.
+**It's a work in progress**.
 
 ## Technologies
 
@@ -11,6 +13,7 @@ This application uses Remix for routing and managing state, React for creating i
 - WebRTC (PeerJS): PeerJS simplifies WebRTC peer-to-peer data, video, and audio calls. It abstracts away much of the underlying complexity and lets you focus on writing powerful, feature-rich apps.
 - Shadcn (TailwindCSS, Radix-UI): Shadcn combines the utility-first styling of TailwindCSS with the accessibility-focused primitives of Radix-UI. It provides a robust set of tools for building custom designs with ease.
 - Pnpm: a fast, disk space efficient package manager for JavaScript.
+- Tests done with [TestCafe](https://devexpress.github.io/testcafe/documentation/getting-started/) and the [Testing-Library](https://testing-library.com/docs/testcafe-testing-library/intro).
 
 ## Features
 
