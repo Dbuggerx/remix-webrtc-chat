@@ -97,6 +97,7 @@ export default function ChatRoomRoute() {
           variant="outline"
           onClick={broadcastMsg}
           disabled={!canSendMsg}
+          aria-label="Send message"
         >
           <SendIcon className="h-6 w-6 p-1 text-foreground" />
         </Button>

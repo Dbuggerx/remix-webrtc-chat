@@ -15,6 +15,7 @@ export default function Message({ msg, sender, fromUser, date }: Props) {
       className={clsx("flex gap-2 pb-3 max-w-full", {
         "flex-row-reverse justify-end": fromUser,
       })}
+      role="log"
     >
       <MsgAvatar name={sender} />
       <div
